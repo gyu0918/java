@@ -15,11 +15,12 @@ public class LottoMachineMain {
 
         // 바로 아래를 보면 LottoMachine 인스턴스가 생성되었다.
         LottoMachine lottoMachine = new LottoMachineImpl();  // 이렇게 인터페이스는 타입형태는 가능하다.
-        LottoMachine.setBalls(balls);
-        LottoMachine.mix();
-        Ball[] result = LottoMachine.getBalls();
+        lottoMachine.setBalls(balls);
+        lottoMachine.mix();
+        Ball[] result = lottoMachine.getBalls();
         for(int i = 0; i < result.length; i++){
-            
+            System.out.println(result[i].getNumber());
+
         }
     }
 }
