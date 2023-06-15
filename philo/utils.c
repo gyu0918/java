@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junggkim <junggkim@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: junggkim <junggkim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:43:20 by junggkim          #+#    #+#             */
-/*   Updated: 2023/06/10 15:43:22 by junggkim         ###   ########.fr       */
+/*   Updated: 2023/06/15 05:04:23 by junggkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,9 @@ int	ft_error(char *str)
 {
 	printf("%s\n", str);
 	return (0);
+}
+
+void	free_all(t_philo *philo, t_check *check)
+{
+	
 }

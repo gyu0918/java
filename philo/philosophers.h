@@ -6,7 +6,7 @@
 /*   By: junggkim <junggkim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 15:55:28 by junggkim          #+#    #+#             */
-/*   Updated: 2023/06/13 00:27:28 by junggkim         ###   ########.fr       */
+/*   Updated: 2023/06/15 02:25:40 by junggkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_check
     int eat_count;
     int end;
     pthread_mutex_t *forks;
+    pthread_mutex_t print;
 }   t_check;
 
 typedef struct s_philo
@@ -41,22 +42,5 @@ typedef struct s_philo
     pthread_t	thread;
     struct s_check  *check;
 }   t_philo;
-
-printf("%ld %d has taken a fork\n",philo->start_eat_time, philo->num);
-printf("%ld %d is eating\n",philo->start_eat_time, philo->num);
-printf("%ld %d is sleeping\n",philo->start_eat_time, philo->num);
-printf("%ld %d is thinking\n",philo->start_eat_time, philo->num);
-printf("%ld %d died\n",philo->start_eat_time, philo->num);
-
-timestamp_in_ms X is eating
-timestamp_in_ms X is sleeping
-timestamp_in_ms X is thinking
-timestamp_in_ms X died
-
-
-
-
-
-
 
 #endif

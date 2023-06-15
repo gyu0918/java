@@ -6,7 +6,7 @@
 /*   By: junggkim <junggkim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:49:27 by junggkim          #+#    #+#             */
-/*   Updated: 2023/06/13 00:28:04 by junggkim         ###   ########.fr       */
+/*   Updated: 2023/06/15 04:59:16 by junggkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int philo_init(t_philo *philo, t_check *check)
     while (++i < check->number_of_philosophers)
     {
         philo[i].check = check;
-        philo[i].id = i + 1;
+        philo[i].num = i + 1;
         philo[i].left_fork = i;
         philo[i].right_fork = (i+1) % check->number_of_philosophers;
         philo[i].eaten_num = 0;

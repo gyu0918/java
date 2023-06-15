@@ -6,22 +6,34 @@
 /*   By: junggkim <junggkim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 20:19:44 by junggkim          #+#    #+#             */
-/*   Updated: 2023/06/12 21:28:31 by junggkim         ###   ########.fr       */
+/*   Updated: 2023/06/15 05:03:12 by junggkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void    pass_time(t_philo *philo)
+void    printf_mutex(t_philo *philo, int num, char *str)
 {
-	long long	start;
-	long long	now;
+    long now_time;
+    
+    now_time = ft_get_time();   
+    pthread_mutex_lock(&(philo->check->print));
+    if (philo->check->end)
+        printf("%ld %d %s\n", now_time - philo->start_thread_time, num, str);
+    pthread_mutex_unlock(&(philo->check->print));
+}
 
-	start = ft_get_time();
+
+void    pass_time(t_philo *philo, int wait_time)
+{
+	long	start_time;
+	long	now_time;
+
+	start_time = ft_get_time();
 	while (philo->check->end)
 	{
-		now = ft_get_time();
-		if ((now - start) >= wait_time)
+		now_time = ft_get_time();
+		if ((now_time - start_time) >= wait_time)
 			break ;
 		usleep(10);
 	}
@@ -29,23 +41,30 @@ void    pass_time(t_philo *philo)
 
 void    ft_finish_check(t_philo *philo, t_check *check)
 {
-	int			i;
-	long long	now;
-
-	while (end 조건)
+	int     i;
+	long    now;
+    int     eat;
+    
+	while (check->end)
 	{
-		if ((check->eat_times != 0) && (check->philo_num == check->finished_eat))
-			break ;
-		i = 0;
-		while (i < check->philo_num)
+        eat = 0;
+		i = -1;
+		while (++i < check->number_of_philosophers)
 		{
+            eat += philo[i].eaten_num;
+            if ((check->eat_count != 0)
+                && (eat == check->eat_count * check->number_of_philosophers))
+            {
+                check->end = 0;
+			    break ;
+            }
 			now = ft_get_time();
 			if ((now - philo[i].last_eat_time) >= check->time_to_die)
 			{
-                printf("%ld %d died\n",ft_get_time(), philo->num); //고치셈
+                check->end = 0;
+                printf_mutex(philo, i, "died");
 				break ;
 			}
-			i++;
 		}
 	}
 }
@@ -55,25 +74,25 @@ void    ft_thread(void *ss)
     t_philo *philo;
 
     philo = ss;
-    if (philo->id % 2)
+    if (philo->num % 2)
         usleep(100);
     while (philo->check->end)
     {
         pthread_mutex_lock(&(philo->check->forks[philo->left_fork]));
-        printf("%ld %d has taken a fork\n",philo->last_eat_time, philo->num);
+        printf_mutex(philo, philo->num, "has taken a fork");
         pthread_mutex_lock(&(philo->check->forks[philo->left_fork]));
-        printf("%ld %d has taken a fork\n",philo->last_eat_time, philo->num);
-        printf("%ld %d is eating\n",, philo->num);
+        printf_mutex(philo, philo->num, "has taken a fork");
+        printf_mutex(philo, philo->num, "is eating");
         philo->last_eat_time = ft_get_time();
         philo->eaten_num++;
-        pass_time(philo);
+        pass_time(philo, philo->check->time_to_eat);
         pthread_mutex_unlock(&(philo->check->forks[philo->right_fork]));
         pthread_mutex_unlock(&(philo->check->forks[philo->left_fork]));
         if (philo->eaten_num == philo->check->eat_count)
             break ;
-        printf("%ld %d is sleeping\n",philo->start_eat_time, philo->num);
-        pass_time(philo);
-        printf("%ld %d is thinking\n",philo->start_eat_time, philo->num);
+        printf_mutex(philo, philo->num, "is sleeping");
+        pass_time(philo, philo->check->time_to_eat);
+        printf_mutex(philo, philo->num, "is thinking");
     }
 }
 
@@ -84,7 +103,7 @@ int start_eating(t_philo *philo, t_check *check)
     if (check->number_of_philosophers == 1)
     {
         printf("%ld 1 has taken a fork\n", ft_get_time());
-        usleep(check->time_to_die);
+        pass_time(philo, philo->check->time_to_eat);
         printf("%ld 1 died\n", ft_get_time());
         free_all(philo, check);
         return (0);
