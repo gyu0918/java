@@ -7,7 +7,7 @@ public class ListExam01 {
         list.add("kim");
         list.add("jung");
         list.add("kyu");
-// LIst는 순서가 보장 
+// LIst는 순서가 보장
         String str1 = (String)list.get(0);
         String str2 = (String)list.get(1);
         String str3 = (String)list.get(2);
