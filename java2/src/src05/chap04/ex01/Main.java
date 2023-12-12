@@ -6,6 +6,6 @@ public class Main {
 
         String pb = phone.powerButton;
         String ss = phone.sdCardSlot;
-        String cu = phone.cpu; // ⚠️ 불가
+        //String cu = phone.cpu; // ⚠️ 불가
     }
 }
